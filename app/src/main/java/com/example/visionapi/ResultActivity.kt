@@ -81,31 +81,52 @@ class ResultActivity : AppCompatActivity() {
         }
 
         //자세히 보기 Dialog
-        binding.btnDetail.setOnClickListener{
+        binding.btnDetail.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("자세히 보기")
                 .setMessage(getMessage(allist))
-                .setNegativeButton("닫기", object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        //아무것도 하지 않고 닫기
-                    }
+                .setNegativeButton("닫기") { dialog, _ ->
+                    // 아무것도 하지 않고 닫기
+                    dialog.dismiss()
+                }
+                .setPositiveButton("자세한 정보를 원하시면") { _, _ ->
+                    // 사용자가 성분을 선택할 수 있는 Dialog 생성
+                    if (allist.isNotEmpty()) {
+                        val items = allist.toTypedArray() // 성분 목록 배열로 변환
+                        AlertDialog.Builder(this)
+                            .setTitle("검색할 성분을 선택하세요")
+                            .setItems(items) { _, which ->
+                                // 사용자가 선택한 성분 가져오기
+                                val selectedIngredient = items[which]
+                                val query = Uri.encode(selectedIngredient) // 선택한 성분 인코딩
 
-                })
-                .setPositiveButton("자세한 정보를 원하시면"){_, _, ->
-                    //웹 브라우저 열기
-                    //val searchQuery = Uri.encode(search) 제목 검색 $searchQuery
-                    val query = if (allist.isNotEmpty()) {
-                        Uri.encode(allist.joinToString(", ")) // 성분을 쉼표로 구분해 인코딩
+                                // 브라우저로 이동
+                                val intent = Intent(Intent.ACTION_VIEW)
+                                intent.data = Uri.parse("https://www.amc.seoul.kr/asan/search/search.do?kwd=$query")
+                                startActivity(intent)
+                            }
+                            .setNegativeButton("닫기") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .create()
+                            .show()
                     } else {
-                        Uri.encode("알러지 성분 없음") // 성분이 없을 경우 기본 메시지
+                        // 검색 가능한 성분이 없을 때 경고 메시지 근데 아마 알레르기는 다 있으니 필요는 없을듯
+                        AlertDialog.Builder(this)
+                            .setTitle("알림")
+                            .setMessage("검색 가능한 성분이 없습니다.")
+                            .setNegativeButton("닫기") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            .create()
+                            .show()
                     }
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse("https://www.amc.seoul.kr/asan/search/search.do?kwd=$query") // 제목의 성분 검색인데 성분모두가 들어가 버림 하나만 검색될수있게 아니면, 성분 중에서 사용자가 워하는거 검색할수 있게
-                    startActivity(intent)
                 }
                 .create()
                 .show()
         }
+
+
 
         //닫기 버튼
         binding.btnGoBackCamera.setOnClickListener {
