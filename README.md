@@ -1,1 +1,1 @@
-# Commits on Nov 17, 2024 (744998e) 이후 DB target 수정
+# AndroidGit
