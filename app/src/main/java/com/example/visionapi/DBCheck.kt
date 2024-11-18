@@ -27,7 +27,7 @@ class DBCheck : AppCompatActivity() {
 
     private fun insertSampleProducts() {
         dbHelper.insertProduct(
-            name = "호두마루",
+            name = "호두마루", 
             kcal = "825Kcal",
             target = listOf("우유", "호두"),
             type = "아이스크림",

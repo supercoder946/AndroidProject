@@ -118,11 +118,10 @@ class ProductDatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABA
 
             // target 데이터를 배열로 변환
             val targetString = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TARGET))
-            val targetList = targetString.split(",")
 
             val type = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TYPE))
             val total = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TOTAL))
-            product = Product(productName, kcal, targetList.joinToString(","), type, total)
+            product = Product(productName, kcal, targetString, type, total)
         }
         cursor.close()
         db.close()

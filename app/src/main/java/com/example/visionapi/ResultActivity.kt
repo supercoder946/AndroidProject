@@ -58,12 +58,15 @@ class ResultActivity : AppCompatActivity() {
 
             //사용자 알러지 비교
             var flag = false
-            for(u in ua){
-                if(u != ""){
-                    if(p.target == u){
-                        binding.tvResult.text = "알러지가 검출되었습니다!!!!"
-                        allist.add(p.target)
-                        flag = true
+            var targetLists = p.target.split(",")
+            for(a in targetLists) {
+                for (u in ua) {
+                    if (u != "") {
+                        if (a == u) {
+                            binding.tvResult.text = "알러지가 검출되었습니다!"
+                            allist.add(a)
+                            flag = true
+                        }
                     }
                 }
             }
@@ -90,7 +93,7 @@ class ResultActivity : AppCompatActivity() {
                 .show()
         }
 
-        //닫기 버
+        //닫기 버튼
         binding.btnGoBackCamera.setOnClickListener {
             finish()
         }
