@@ -2,7 +2,9 @@ package com.example.visionapi
 
 import android.annotation.SuppressLint
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
@@ -89,6 +91,12 @@ class ResultActivity : AppCompatActivity() {
                     }
 
                 })
+                .setPositiveButton("더 자세한 정보를 원하시면"){_, _, ->
+                    //웹 브라우저 열기
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse("https://health.kdca.go.kr/healthinfo/")
+                    startActivity(intent)
+                }
                 .create()
                 .show()
         }
@@ -108,7 +116,7 @@ class ResultActivity : AppCompatActivity() {
     }
 
     fun getMessage(list: MutableList<String>) : String {
-        var rtn : String = ""
+        var rtn: String = ""
         if(list.size == 0) return "인식된 내용이 없거나 DB에 없습니다...\n"
         for(n in list){
             rtn += n + "이/가 식별되었습니다\n"
