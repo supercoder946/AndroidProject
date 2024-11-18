@@ -91,10 +91,16 @@ class ResultActivity : AppCompatActivity() {
                     }
 
                 })
-                .setPositiveButton("더 자세한 정보를 원하시면"){_, _, ->
+                .setPositiveButton("자세한 정보를 원하시면"){_, _, ->
                     //웹 브라우저 열기
+                    //val searchQuery = Uri.encode(search) 제목 검색 $searchQuery
+                    val query = if (allist.isNotEmpty()) {
+                        Uri.encode(allist.joinToString(", ")) // 성분을 쉼표로 구분해 인코딩
+                    } else {
+                        Uri.encode("알러지 성분 없음") // 성분이 없을 경우 기본 메시지
+                    }
                     val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse("https://health.kdca.go.kr/healthinfo/")
+                    intent.data = Uri.parse("https://www.amc.seoul.kr/asan/search/search.do?kwd=$query") // 제목의 성분 검색인데 성분모두가 들어가 버림 하나만 검색될수있게 아니면, 성분 중에서 사용자가 워하는거 검색할수 있게
                     startActivity(intent)
                 }
                 .create()
