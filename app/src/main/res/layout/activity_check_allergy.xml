@@ -130,11 +130,19 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_weight="1">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="사진찍기"
+            android:id="@+id/btnChangePhoto"/>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/BtnSaveInfo"
             android:text="저장하기"/>
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

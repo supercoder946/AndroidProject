@@ -20,20 +20,17 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        binding.btnChangePhoto.setOnClickListener {
-            var intent = Intent(this, CameraActivity::class.java)
-            startActivity(intent)
-        }
-
-        binding.btnChangeCheckAllergy.setOnClickListener{
-            var intent = Intent(this, CheckAllergy::class.java)
-            startActivity(intent)
-        }
 
         binding.btnDBCheck.setOnClickListener{
             var intent = Intent(this, DBCheck::class.java)
             startActivity(intent)
         }
+
+        binding.btnUserInput.setOnClickListener{
+            var intent = Intent(this, UserInputActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 }
 

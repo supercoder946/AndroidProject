@@ -78,6 +78,7 @@ class CameraActivity : AppCompatActivity() {
 
             })
         }
+
         rv.adapter = adapter
 
         binding.btnPhoto.setOnClickListener { takePhoto() }

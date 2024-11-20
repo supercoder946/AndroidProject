@@ -1,133 +1,102 @@
 package com.example.visionapi
 
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.CheckBox
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.room.ColumnInfo
-import androidx.room.Dao
-import androidx.room.Database
-import androidx.room.Entity
-import androidx.room.Insert
-import androidx.room.PrimaryKey
-import androidx.room.Query
-import androidx.room.Room
-import androidx.room.RoomDatabase
-import androidx.room.Update
 import com.example.visionapi.databinding.ActivityCheckAllergyBinding
-import java.util.ArrayList
 
 class CheckAllergy : AppCompatActivity() {
     lateinit var binding: ActivityCheckAllergyBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityCheckAllergyBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        //화면 표시때 유저데이터 없으면 초기화
+        // 유저 UID 받기
+        val uid = intent.getIntExtra("uid", -1)
+
         val userDB = UserDatabase.getInstance(applicationContext)
-        if(userDB!!.UserDao().getUserNum() <= 0){
-            var tmpUser = User(1, "", "","","","","","","","","","","","","","",""
-                ,"","","","","")
-            userDB.UserDao().insertUser(tmpUser)
+        val userDao = userDB?.UserDao()
+
+        if (uid != -1) {
+            // UID에 맞는 유저 정보 가져오기
+            val user = userDao?.getUser(uid)
+            if (user != null) {
+                setAllergyBox(user)  // 기존의 알레르기 정보 불러오기
+            }
         }
 
-        //화면 불러올 때 기존 선택한 알러지 불러오기
-        setAllergyBox(userDB.UserDao().getUser(1))
-        Log.e("Allergy", "User allergy loaded")
-
-        //설정해둔 알러지 저장
-        binding.BtnSaveInfo.setOnClickListener{
-            userDB.UserDao().updateUser(checkAllergyBox())
-            Toast.makeText(this, "알러지가 수정되었습니다!", Toast.LENGTH_SHORT)
-                .show()
+        // 저장 버튼 클릭 시
+        binding.BtnSaveInfo.setOnClickListener {
+            if (uid != -1) {
+                val updatedUser = checkAllergyBox(uid)  // UID를 포함한 수정된 유저 정보 가져오기
+                userDao?.updateUser(updatedUser)  // 수정된 정보 저장
+                Toast.makeText(this, "알러지가 수정되었습니다!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        //사진찍기 버튼
+        binding.btnChangePhoto.setOnClickListener {
+            var intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
         }
 
-        //뒤로가기
-        binding.BtnGoBackMain.setOnClickListener{
+        // 뒤로가기 버튼
+        binding.BtnGoBackMain.setOnClickListener {
             finish()
         }
     }
 
-    fun checkAllergyBox() : User{
-        val cb1 = findViewById<CheckBox>(R.id.cb1)
-        val cb2 = findViewById<CheckBox>(R.id.cb2)
-        val cb3 = findViewById<CheckBox>(R.id.cb3)
-        val cb4 = findViewById<CheckBox>(R.id.cb4)
-        val cb5 = findViewById<CheckBox>(R.id.cb5)
-        val cb6 = findViewById<CheckBox>(R.id.cb6)
-        val cb7 = findViewById<CheckBox>(R.id.cb7)
-        val cb8 = findViewById<CheckBox>(R.id.cb8)
-        val cb9 = findViewById<CheckBox>(R.id.cb9)
-        val cb10 = findViewById<CheckBox>(R.id.cb10)
-        val cb11 = findViewById<CheckBox>(R.id.cb11)
-        val cb12 = findViewById<CheckBox>(R.id.cb12)
-        val cb13 = findViewById<CheckBox>(R.id.cb13)
-        val cb14 = findViewById<CheckBox>(R.id.cb14)
-        val cb15 = findViewById<CheckBox>(R.id.cb15)
-        val cb16 = findViewById<CheckBox>(R.id.cb16)
-        val cb17 = findViewById<CheckBox>(R.id.cb17)
-        val cb18 = findViewById<CheckBox>(R.id.cb18)
-        val cb19 = findViewById<CheckBox>(R.id.cb19)
-        val cb20 = findViewById<CheckBox>(R.id.cb20)
-        val cb21 = findViewById<CheckBox>(R.id.cb21)
+    // 체크박스에서 선택된 알레르기 정보를 반환 (UID를 동적으로 설정)
+    fun checkAllergyBox(uid: Int): User {
+        val cbArray = arrayOf(
+            binding.cb1, binding.cb2, binding.cb3, binding.cb4, binding.cb5,
+            binding.cb6, binding.cb7, binding.cb8, binding.cb9, binding.cb10,
+            binding.cb11, binding.cb12, binding.cb13, binding.cb14, binding.cb15,
+            binding.cb16, binding.cb17, binding.cb18, binding.cb19, binding.cb20, binding.cb21
+        )
 
+        val alArray = Array(21) { "" }
 
-        var cbArray = arrayOf(cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9, cb10, cb11, cb12, cb13, cb14, cb15, cb16, cb17, cb18, cb19, cb20, cb21)
-        var alArray = arrayOf("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "")
-
-        for(i in cbArray){
-            if(i.isChecked){
-                alArray[cbArray.indexOf(i)] = cbArray[cbArray.indexOf(i)].text.toString()
+        // 선택된 알레르기 체크박스 값 설정
+        cbArray.forEachIndexed { index, cb ->
+            if (cb.isChecked) {
+                alArray[index] = cb.text.toString()
             }
         }
 
-        val u : User = User(1, alArray[0], alArray[1], alArray[2], alArray[3], alArray[4], alArray[5], alArray[6], alArray[7], alArray[8]
-            , alArray[9], alArray[10], alArray[11], alArray[12], alArray[13], alArray[14], alArray[15], alArray[16], alArray[17], alArray[18],
-            alArray[19], alArray[20])
-        return u
+        // 배열을 각 항목에 맞게 전달
+        return User(
+            uid = uid,
+            al1 = alArray[0], al2 = alArray[1], al3 = alArray[2], al4 = alArray[3],
+            al5 = alArray[4], al6 = alArray[5], al7 = alArray[6], al8 = alArray[7],
+            al9 = alArray[8], al10 = alArray[9], al11 = alArray[10], al12 = alArray[11],
+            al13 = alArray[12], al14 = alArray[13], al15 = alArray[14], al16 = alArray[15],
+            al17 = alArray[16], al18 = alArray[17], al19 = alArray[18], al20 = alArray[19],
+            al21 = alArray[20]
+        )
     }
 
-    fun setAllergyBox(user : User){
-        val cb1 = findViewById<CheckBox>(R.id.cb1)
-        val cb2 = findViewById<CheckBox>(R.id.cb2)
-        val cb3 = findViewById<CheckBox>(R.id.cb3)
-        val cb4 = findViewById<CheckBox>(R.id.cb4)
-        val cb5 = findViewById<CheckBox>(R.id.cb5)
-        val cb6 = findViewById<CheckBox>(R.id.cb6)
-        val cb7 = findViewById<CheckBox>(R.id.cb7)
-        val cb8 = findViewById<CheckBox>(R.id.cb8)
-        val cb9 = findViewById<CheckBox>(R.id.cb9)
-        val cb10 = findViewById<CheckBox>(R.id.cb10)
-        val cb11 = findViewById<CheckBox>(R.id.cb11)
-        val cb12 = findViewById<CheckBox>(R.id.cb12)
-        val cb13 = findViewById<CheckBox>(R.id.cb13)
-        val cb14 = findViewById<CheckBox>(R.id.cb14)
-        val cb15 = findViewById<CheckBox>(R.id.cb15)
-        val cb16 = findViewById<CheckBox>(R.id.cb16)
-        val cb17 = findViewById<CheckBox>(R.id.cb17)
-        val cb18 = findViewById<CheckBox>(R.id.cb18)
-        val cb19 = findViewById<CheckBox>(R.id.cb19)
-        val cb20 = findViewById<CheckBox>(R.id.cb20)
-        val cb21 = findViewById<CheckBox>(R.id.cb21)
-        var cbArray = arrayOf(cb1, cb2, cb3, cb4, cb5, cb6, cb7, cb8, cb9, cb10, cb11, cb12, cb13, cb14, cb15, cb16, cb17, cb18, cb19, cb20, cb21)
-        var alArray = arrayOf(user.al1, user.al2, user.al3, user.al4, user.al5, user.al6, user.al7, user.al8, user.al9, user.al10,
-            user.al11, user.al12, user.al13, user.al14, user.al15, user.al16, user.al17, user.al18, user.al19, user.al20, user.al21)
+    // 기존 사용자 알레르기 정보를 체크박스에 표시
+    fun setAllergyBox(user: User) {
+        val cbArray = arrayOf(
+            binding.cb1, binding.cb2, binding.cb3, binding.cb4, binding.cb5,
+            binding.cb6, binding.cb7, binding.cb8, binding.cb9, binding.cb10,
+            binding.cb11, binding.cb12, binding.cb13, binding.cb14, binding.cb15,
+            binding.cb16, binding.cb17, binding.cb18, binding.cb19, binding.cb20, binding.cb21
+        )
 
-        for(i in 0..cbArray.size-1){
-            if(alArray[i] != ""){
-                cbArray[i].isChecked = true
+        val alArray = arrayOf(
+            user.al1, user.al2, user.al3, user.al4, user.al5, user.al6, user.al7, user.al8, user.al9, user.al10,
+            user.al11, user.al12, user.al13, user.al14, user.al15, user.al16, user.al17, user.al18, user.al19, user.al20, user.al21
+        )
+
+        // 기존 알레르기 정보가 있으면 체크박스를 선택
+        alArray.forEachIndexed { index, allergy ->
+            if (allergy.isNotEmpty()) {
+                cbArray[index].isChecked = true
             }
         }
     }

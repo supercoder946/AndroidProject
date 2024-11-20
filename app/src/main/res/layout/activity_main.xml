@@ -8,22 +8,22 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="사진찍기"
-        android:id="@+id/btnChangePhoto"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="알러지 수정하기"
-        android:id="@+id/btnChangeCheckAllergy"/>
+<!--    <Button-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="사진찍기"-->
+<!--        android:id="@+id/btnChangePhoto"/>-->
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="DB 확인하기"
         android:id="@+id/btnDBCheck"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="User 등록하기"
+        android:id="@+id/btnUserInput"/>
 
 </LinearLayout>

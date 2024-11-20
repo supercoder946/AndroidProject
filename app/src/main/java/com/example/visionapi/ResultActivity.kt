@@ -28,6 +28,11 @@ class ResultActivity : AppCompatActivity() {
             insets
         }
 
+        // ResultActivity로 전달된 UID를 가져오기
+        val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
+        val uid = sharedPreferences.getInt("uid", -1) // 저장된 UID 가져오기
+        Log.d("ResultActivity", "Received UID: $uid")
+
         //Camera Activity에서 가져온 String 가져오기
         val text : String = intent.getStringExtra("text").toString()
         dbHelper = ProductDatabaseHelper(this)
@@ -45,7 +50,7 @@ class ResultActivity : AppCompatActivity() {
         }
 
         //TEST용 CODE
-        //search = "이부프로펜"
+        //search = "꽃게랑"
 
         //제품 결과 출력
         val p : Product = dbHelper.getProduct(search)
@@ -55,7 +60,7 @@ class ResultActivity : AppCompatActivity() {
         if(p.name != "1"){
             Log.e("Result", "Product loaded")
             //유저 알러지 정보 조회
-            val ua = getUserAllergy()
+            val ua = getUserAllergy(uid)  // UID를 기준으로 알러지 정보 조회
             Log.e("Result", "User Allergy loaded")
 
             //사용자 알러지 비교
@@ -126,8 +131,6 @@ class ResultActivity : AppCompatActivity() {
                 .show()
         }
 
-
-
         //닫기 버튼
         binding.btnGoBackCamera.setOnClickListener {
             finish()
@@ -135,11 +138,18 @@ class ResultActivity : AppCompatActivity() {
 
     }
 
-    //유저 알러지만 조회
-    private fun getUserAllergy() : Array<String> {
-        val user = UserDatabase.getInstance(this)!!.UserDao().getUser(1)
-        return arrayOf(user.al1, user.al2, user.al3, user.al4, user.al5, user.al6, user.al7, user.al8, user.al9, user.al10,
-            user.al11, user.al12, user.al13, user.al14, user.al15, user.al16, user.al17, user.al18, user.al19, user.al20, user.al21)
+    // UID 기준으로 유저 알러지 정보 조회
+    private fun getUserAllergy(uid: Int): Array<String> {
+        val userDao = UserDatabase.getInstance(this)!!.UserDao()
+        val user = userDao.getUser(uid)  // UID로 유저 조회
+        return if (user != null) {
+            arrayOf(
+                user.al1, user.al2, user.al3, user.al4, user.al5, user.al6, user.al7, user.al8, user.al9, user.al10,
+                user.al11, user.al12, user.al13, user.al14, user.al15, user.al16, user.al17, user.al18, user.al19, user.al20, user.al21
+            )
+        } else {
+            arrayOf()  // 유저가 없으면 빈 배열 반환
+        }
     }
 
     fun getMessage(list: MutableList<String>) : String {
