@@ -1,0 +1,33 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/uidInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="UID"
+        android:inputType="number" />
+
+
+    <!-- Add EditTexts for other fields (al3 - al21) -->
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="저장" />
+
+    <Button
+        android:id="@+id/viewListButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="User 리스트"
+        android:layout_marginTop="16dp"
+        android:padding="12dp"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>
