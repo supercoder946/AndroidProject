@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -5,29 +6,30 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- 이름 입력 필드 -->
     <EditText
-        android:id="@+id/uidInput"
+        android:id="@+id/nameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="UID"
-        android:inputType="number" />
+        android:hint="사용자 이름을 입력하세요"
+        android:inputType="textPersonName"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
 
-
-    <!-- Add EditTexts for other fields (al3 - al21) -->
-
+    <!-- 저장 버튼 -->
     <Button
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="저장" />
+        android:text="저장"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
 
+    <!-- UID 목록 보기 버튼 -->
     <Button
         android:id="@+id/viewListButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="User 리스트"
-        android:layout_marginTop="16dp"
-        android:padding="12dp"
-        android:textColor="@android:color/white" />
-
+        android:text="UID 목록 보기"
+        android:textSize="18sp" />
 </LinearLayout>

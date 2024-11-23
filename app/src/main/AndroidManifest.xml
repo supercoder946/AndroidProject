@@ -21,9 +21,6 @@
         android:theme="@style/Theme.VisionAPI"
         tools:targetApi="31">
         <activity
-            android:name=".UserDetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".UserListActivity"
             android:exported="false" />
         <activity

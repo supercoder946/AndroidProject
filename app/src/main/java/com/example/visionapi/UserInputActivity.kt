@@ -2,6 +2,7 @@ package com.example.visionapi
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -13,8 +14,8 @@ class UserInputActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_input)
 
-        // 사용자 입력을 받기 위한 EditText
-        val uidInput = findViewById<EditText>(R.id.uidInput)
+        // 사용자 이름을 받기 위한 EditText
+        val nameInput = findViewById<EditText>(R.id.nameInput) // name 입력 필드
 
         val saveButton = findViewById<Button>(R.id.saveButton)
 
@@ -23,46 +24,42 @@ class UserInputActivity : AppCompatActivity() {
         val userDao = userDatabase?.UserDao()
 
         saveButton.setOnClickListener {
-            // 사용자가 입력한 UID 값을 변수에 저장
-            val uid = uidInput.text.toString().toIntOrNull()
+            val name = nameInput.text.toString()
 
-            // UID가 null이 아닌 경우에만 처리
-            if (uid != null) {
-                // User 객체 생성 (UID만 저장, 나머지 필드는 기본값으로 처리)
-                val user = User(
-                    uid = uid,
-                    al1 = "",
-                    al2 = "",
-                    al3 = "",
-                    al4 = "",
-                    al5 = "",
-                    al6 = "",
-                    al7 = "",
-                    al8 = "",
-                    al9 = "",
-                    al10 = "",
-                    al11 = "",
-                    al12 = "",
-                    al13 = "",
-                    al14 = "",
-                    al15 = "",
-                    al16 = "",
-                    al17 = "",
-                    al18 = "",
-                    al19 = "",
-                    al20 = "",
-                    al21 = ""
-                )
+            if (name.isNotBlank()) {
+                // UID를 자동으로 생성하는 로직
+                val usedUids = userDao?.getAllUsers()?.map { it.uid } ?: emptyList()
+                val availableUids = (1..100).filter { it !in usedUids }
 
-                // 데이터베이스에 UID 저장
-                userDao?.insertUser(user)
-                Toast.makeText(this, "UID가 저장되었습니다!", Toast.LENGTH_SHORT).show()
+                if (availableUids.isNotEmpty()) {
+                    val newUid = availableUids.random() // 사용 가능한 UID 중 랜덤 선택
 
-                // 저장 후 입력 필드 초기화
-                uidInput.text.clear()
+                    // 생성된 UID와 이름을 포함한 사용자 객체 생성
+                    val user = User(
+                        uid = newUid,
+                        name = name,
+                        al1 = "", al2 = "", al3 = "", al4 = "", al5 = "",
+                        al6 = "", al7 = "", al8 = "", al9 = "", al10 = "",
+                        al11 = "", al12 = "", al13 = "", al14 = "", al15 = "",
+                        al16 = "", al17 = "", al18 = "", al19 = "", al20 = "", al21 = ""
+                    )
+
+                    // 사용자 객체를 데이터베이스에 저장
+                    userDao?.insertUser(user)
+                    Log.d("UserInputActivity", "Saved User: $user") // 저장 로그
+
+                    // 저장된 데이터 확인
+                    val allUsers = userDao?.getAllUsers()
+                    Log.d("UserInputActivity", "All Users: $allUsers")
+
+                    // 저장 완료 메시지
+                    Toast.makeText(this, "정보가 저장되었습니다! UID: $newUid", Toast.LENGTH_SHORT).show()
+                    nameInput.text.clear()
+                } else {
+                    Toast.makeText(this, "UID 범위가 모두 사용 중입니다.", Toast.LENGTH_SHORT).show()
+                }
             } else {
-                // UID가 유효하지 않은 경우 메시지 표시
-                Toast.makeText(this, "UID를 입력하세요!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Name을 올바르게 입력하세요!", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -72,6 +69,5 @@ class UserInputActivity : AppCompatActivity() {
             val intent = Intent(this, UserListActivity::class.java)
             startActivity(intent)
         }
-
     }
 }

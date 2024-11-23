@@ -31,7 +31,7 @@ class ResultActivity : AppCompatActivity() {
         // ResultActivity로 전달된 UID를 가져오기
         val sharedPreferences = getSharedPreferences("AppPrefs", MODE_PRIVATE)
         val uid = sharedPreferences.getInt("uid", -1) // 저장된 UID 가져오기
-        Log.d("ResultActivity", "Received UID: $uid")
+
 
         //Camera Activity에서 가져온 String 가져오기
         val text : String = intent.getStringExtra("text").toString()
