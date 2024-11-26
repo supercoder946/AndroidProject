@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 카메라 하드웨어 기능 선언 -->
+    <uses-feature android:name="android.hardware.camera.any" />
+
+    <!-- 권한 선언 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+    <application
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher_simple"
+        android:label="편앱"
+        android:roundIcon="@mipmap/ic_launcher_simple_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.VisionAPI"
+        tools:targetApi="31">
+
+        <!-- ResultActivity -->
+        <activity
+            android:name=".ResultActivity"
+            android:exported="false" />
+
+        <!-- CheckAllergy -->
+        <activity
+            android:name=".CheckAllergy"
+            android:exported="false" />
+
+        <!-- CameraActivity -->
+        <activity
+            android:name=".CameraActivity"
+            android:exported="false" />
+
+        <!-- DBCheck -->
+        <activity
+            android:name=".DBCheck"
+            android:exported="false" />
+        <activity
+            android:name=".MainRedirectActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".UserInputActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".UserListActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".DeleteUserActivity"
+            android:exported="true" />
+
+
+
+
+
+
+        <!-- SplashActivity (Launcher) -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+
+
+    </application>
+</manifest>

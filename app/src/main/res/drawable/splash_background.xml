@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 배경 색 -->
+    <item android:drawable="@color/white" />
+
+    <!-- 중앙 로고 -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/app_logo"
+            android:alpha="0"
+        />
+    </item>
+
+</layer-list>

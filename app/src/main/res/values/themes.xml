@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 기존 앱 테마 -->
+    <style name="Theme.VisionAPI" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- NoActionBar를 설정하여 기본 액션바 비활성화 -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <!-- 스플래시 화면 테마 -->
+    <style name="Theme.Splash" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+
+</resources>

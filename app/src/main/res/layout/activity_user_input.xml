@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+
+    <!-- 이름 입력 필드 -->
+    <EditText
+        android:id="@+id/nameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="사용자 이름을 입력하세요"
+        android:inputType="textPersonName"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- 저장 버튼 -->
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="저장"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- UID 목록 보기 버튼 -->
+    <Button
+        android:id="@+id/viewListButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="UID 목록 보기"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"/>
+    <!-- 삭제하기 버튼 -->
+    <Button
+        android:id="@+id/deleteUserButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="삭제하기"
+        android:textSize="18sp"
+        android:textColor="@android:color/white" />
+</LinearLayout>
