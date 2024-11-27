@@ -35,18 +35,18 @@ class DBCheck : AppCompatActivity() {
             total = "660mL"
         )
         dbHelper.insertProduct(
-            name = "꽃게랑",
-            kcal = "385kcal",
-            target = listOf("밀", "대두", "토마토", "게", "새우", "닭고기", "소고기", "우유"),
+            name = "웨하스",
+            kcal = "250Kcal",
+            target = listOf("밀", "대두", "우유", "계란"),
             type = "과자",
-            total = "70g"
+            total = "50g"
         )
         dbHelper.insertProduct(
-            name = "계란과자",
-            kcal = "205Kcal",
-            target = listOf("계란", "밀", "우유", "대두"),
+            name = "땅콩샌드",
+            kcal = "480Kcal",
+            target = listOf("땅콩", "밀", "우유", "대두"),
             type = "과자",
-            total = "45g"
+            total = "93g"
         )
         dbHelper.insertProduct(
             name = "버터링",

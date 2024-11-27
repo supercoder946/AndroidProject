@@ -44,6 +44,7 @@ class ResultActivity : AppCompatActivity() {
         // Camera Activity에서 가져온 String 가져오기
         val text: String = intent.getStringExtra("text").toString()
         dbHelper = ProductDatabaseHelper(this)
+        val uid = intent?.getIntExtra("uid", -1) ?: -1
 
         // 문자열 유사도 분석으로 최대한 비슷한 제품 검색
         val name: List<String> = dbHelper.getProductsName()
@@ -62,7 +63,7 @@ class ResultActivity : AppCompatActivity() {
 
         if (p.name != "1") {
             Log.e("Result", "Product loaded")
-            val ua = getUserAllergy()
+            val ua = getUserAllergy(uid)
             Log.e("Result", "User Allergy loaded")
 
             var flag = false
@@ -131,8 +132,8 @@ class ResultActivity : AppCompatActivity() {
     }
 
     // 유저 알러지 정보 조회
-    private fun getUserAllergy(): Array<String> {
-        val user = UserDatabase.getInstance(this)!!.UserDao().getUser(1)
+    private fun getUserAllergy(uid : Int): Array<String> {
+        val user = UserDatabase.getInstance(this)!!.UserDao().getUser(uid)
         return arrayOf(
             user.al1, user.al2, user.al3, user.al4, user.al5, user.al6, user.al7, user.al8, user.al9, user.al10,
             user.al11, user.al12, user.al13, user.al14, user.al15, user.al16, user.al17, user.al18, user.al19, user.al20, user.al21

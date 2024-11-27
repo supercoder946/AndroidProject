@@ -22,9 +22,12 @@ class CameraFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val uid = activity?.intent?.getIntExtra("uid", -1) ?: -1
+
         // CameraActivity 호출
         binding.btnPhoto.setOnClickListener {
             val intent = Intent(requireContext(), CameraActivity::class.java)
+            intent.putExtra("uid", uid)
             startActivity(intent)
         }
 

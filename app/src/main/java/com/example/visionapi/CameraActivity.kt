@@ -70,6 +70,8 @@ class CameraActivity : AppCompatActivity() {
 
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
 
+        val uid = intent?.getIntExtra("uid", -1) ?: -1
+
         //recyclerView Binding
         rv = findViewById<RecyclerView>(R.id.rvResult)
         rv.layoutManager = LinearLayoutManager(applicationContext)
@@ -81,6 +83,7 @@ class CameraActivity : AppCompatActivity() {
                 override fun onClick(v: View, position: Int) {
                     var intent = Intent(applicationContext, ResultActivity::class.java)
                     intent.putExtra("text", data[position])
+                    intent.putExtra("uid", uid)
                     startActivity(intent)
                 }
 
